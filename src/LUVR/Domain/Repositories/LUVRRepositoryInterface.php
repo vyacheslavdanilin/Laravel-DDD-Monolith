@@ -10,7 +10,7 @@ interface LUVRRepositoryInterface
 {
     public function findById(int $id): ?LUVR;
 
-    public function save(LUVR $luvr): void;
+    public function save(LUVR $luvr): LUVR;
 
     public function delete(LUVR $luvr): void;
 }

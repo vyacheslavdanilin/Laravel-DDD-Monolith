@@ -22,12 +22,8 @@ final class ShiftPlanningService
         $timeRange = new ShiftTimeRange($dto->getStartDateTime(), $dto->getEndDateTime());
         $status = ShiftStatus::getDefaultStatus();
 
-        $shift = new Shift(
-            id: new ShiftId(0),
-            timeRange: $timeRange,
-            status: $status
-        );
+        $shift = Shift::create($timeRange, $status);
 
-        return $this->repository->create($shift);
+        return $this->repository->save($shift);
     }
 }
