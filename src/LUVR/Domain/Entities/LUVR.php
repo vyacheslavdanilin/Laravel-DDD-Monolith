@@ -6,6 +6,7 @@ namespace LUVR\Domain\Entities;
 
 use DateTimeInterface;
 use LUVR\Domain\ValueObjects\LUVRStatus;
+use LUVR\Domain\Exceptions\LUVRException;
 use Shared\Domain\Aggregate\AggregateRoot;
 use ShiftPlanning\Domain\ValueObjects\ShiftId;
 
@@ -14,9 +15,9 @@ final class LUVR extends AggregateRoot
     public function __construct(
         private readonly int $id,
         private readonly ShiftId $shiftId,
-        private LUVRStatus $status,
-        private DateTimeInterface $startDateTime,
-        private DateTimeInterface $endDateTime,
+        private readonly LUVRStatus $status,
+        private readonly DateTimeInterface $startDateTime,
+        private readonly DateTimeInterface $endDateTime,
     ) {}
 
     public function getId(): int
@@ -34,11 +35,6 @@ final class LUVR extends AggregateRoot
         return $this->status;
     }
 
-    public function setStatus(LUVRStatus $status): void
-    {
-        $this->status = $status;
-    }
-
     public function getStartDateTime(): DateTimeInterface
     {
         return $this->startDateTime;
@@ -49,20 +45,33 @@ final class LUVR extends AggregateRoot
         return $this->endDateTime;
     }
 
-    public function updateDates(DateTimeInterface $start, DateTimeInterface $end): void
+    public function withUpdatedDates(DateTimeInterface $start, DateTimeInterface $end): self
     {
         if ($start >= $end) {
-            throw new \DomainException('Начало смены должно быть раньше окончания.');
+            throw LUVRException::invalidDateRange();
         }
-        $this->startDateTime = $start;
-        $this->endDateTime = $end;
+
+        return new self(
+            $this->id,
+            $this->shiftId,
+            $this->status,
+            $start,
+            $end
+        );
     }
 
-    public function updateStatus(LUVRStatus $status): void
+    public function withUpdatedStatus(LUVRStatus $status): self
     {
         if ($this->status === LUVRStatus::Paid) {
-            throw new \DomainException('Невозможно изменить оплаченный LUVR.');
+            throw LUVRException::cannotModifyPaid();
         }
-        $this->status = $status;
+
+        return new self(
+            $this->id,
+            $this->shiftId,
+            $status,
+            $this->startDateTime,
+            $this->endDateTime
+        );
     }
 }

@@ -12,12 +12,23 @@ use ShiftPlanning\Domain\ValueObjects\ShiftTimeRange;
 
 final class Shift extends AggregateRoot
 {
-    public function __construct(
+    private function __construct(
         private ShiftId $id,
         private ShiftTimeRange $timeRange,
         private ShiftStatus $status,
-    ) {
-        $this->record(new ShiftCreated($this->id, $this->timeRange, $this->status));
+    ) {}
+
+    public static function create(ShiftTimeRange $timeRange, ShiftStatus $status): self
+    {
+        $shift = new self(new ShiftId(0), $timeRange, $status);
+        $shift->record(new ShiftCreated($shift->id, $shift->timeRange, $shift->status));
+
+        return $shift;
+    }
+
+    public static function reconstitute(ShiftId $id, ShiftTimeRange $timeRange, ShiftStatus $status): self
+    {
+        return new self($id, $timeRange, $status);
     }
 
     public function getId(): ShiftId

@@ -9,7 +9,7 @@ use LUVR\Application\DTOs\UpdateLUVRDto;
 use LUVR\Domain\Entities\LUVR;
 use LUVR\Domain\Repositories\LUVRRepositoryInterface;
 use LUVR\Domain\ValueObjects\LUVRStatus;
-use LUVR\Infrastructure\Exceptions\LUVRException;
+use LUVR\Domain\Exceptions\LUVRException;
 use ShiftPlanning\Domain\ValueObjects\ShiftId;
 
 final class LUVRService
@@ -28,32 +28,27 @@ final class LUVRService
             endDateTime: $dto->endDateTime
         );
 
-        $this->repository->save($luvr);
-
-        return $luvr;
+        return $this->repository->save($luvr);
     }
 
     public function update(int $id, UpdateLUVRDto $dto): LUVR
     {
         $luvr = $this->repository->findById($id);
         if (! $luvr) {
-            throw new LUVRException('LUVR not found');
+            throw LUVRException::notFound();
         }
-
         if ($luvr->getStatus() === LUVRStatus::Paid) {
-            throw new LUVRException('Cannot update a paid LUVR');
+            throw LUVRException::cannotModifyPaid();
         }
 
         if ($dto->startDateTime !== null && $dto->endDateTime !== null) {
-            $luvr->updateDates($dto->startDateTime, $dto->endDateTime);
+            $luvr = $luvr->withUpdatedDates($dto->startDateTime, $dto->endDateTime);
         }
         if ($dto->status !== null) {
-            $luvr->updateStatus($dto->status);
+            $luvr = $luvr->withUpdatedStatus($dto->status);
         }
 
-        $this->repository->save($luvr);
-
-        return $luvr;
+        return $this->repository->save($luvr);
     }
 
     public function getById(int $id): ?LUVR
@@ -65,7 +60,7 @@ final class LUVRService
     {
         $luvr = $this->repository->findById($id);
         if (! $luvr) {
-            throw new LUVRException('LUVR not found');
+            throw LUVRException::notFound();
         }
         $this->repository->delete($luvr);
     }

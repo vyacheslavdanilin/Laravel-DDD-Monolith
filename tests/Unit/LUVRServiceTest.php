@@ -9,7 +9,7 @@ use LUVR\Application\Services\LUVRService;
 use LUVR\Domain\Entities\LUVR;
 use LUVR\Domain\Repositories\LUVRRepositoryInterface;
 use LUVR\Domain\ValueObjects\LUVRStatus;
-use LUVR\Infrastructure\Exceptions\LUVRException;
+use LUVR\Domain\Exceptions\LUVRException;
 use PHPUnit\Framework\TestCase;
 use ShiftPlanning\Domain\ValueObjects\ShiftId;
 
@@ -28,10 +28,26 @@ class InMemoryLUVRRepository implements LUVRRepositoryInterface
         return $this->items[$id] ?? null;
     }
 
-    public function save(LUVR $luvr): void
+    public function save(LUVR $luvr): LUVR
     {
+        if ($luvr->getId() === 0) {
+            $newId = count($this->items) + 1;
+            $persisted = new LUVR(
+                $newId,
+                $luvr->getShiftId(),
+                $luvr->getStatus(),
+                $luvr->getStartDateTime(),
+                $luvr->getEndDateTime()
+            );
+            $this->items[$newId] = $persisted;
+            $this->saved[] = $persisted;
+
+            return $persisted;
+        }
         $this->items[$luvr->getId()] = $luvr;
         $this->saved[] = $luvr;
+
+        return $luvr;
     }
 
     public function delete(LUVR $luvr): void

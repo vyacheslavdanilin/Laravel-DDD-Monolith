@@ -21,41 +21,31 @@ final class ShiftPlanningRepository implements ShiftPlanningRepositoryInterface
             return null;
         }
 
-        return new Shift(
-            id: new ShiftId($model->id),
-            timeRange: new ShiftTimeRange($model->start_date_time, $model->end_date_time),
-            status: ShiftStatus::fromValue($model->status_id)
+        return Shift::reconstitute(
+            new ShiftId($model->id),
+            new ShiftTimeRange($model->start_date_time, $model->end_date_time),
+            ShiftStatus::fromValue($model->status_id)
         );
     }
 
-    public function create(Shift $shift): Shift
+    public function save(Shift $shift): Shift
     {
-        $model = ShiftPlanning::create([
-            'start_date_time' => $shift->getTimeRange()->getStart(),
-            'end_date_time' => $shift->getTimeRange()->getEnd(),
-            'status_id' => $shift->getStatus()->value,
-        ]);
-
-        return new Shift(
-            id: new ShiftId($model->id),
-            timeRange: new ShiftTimeRange(
-                new DateTimeImmutable($model->start_date_time->toDateTimeString()),
-                new DateTimeImmutable($model->end_date_time->toDateTimeString())
-            ),
-            status: ShiftStatus::fromValue($model->status_id)
-        );
-
-    }
-
-    public function save(Shift $shift): void
-    {
-        ShiftPlanning::updateOrCreate(
-            ['id' => $shift->getId()->toInt()],
+        $model = ShiftPlanning::updateOrCreate(
+            ['id' => $shift->getId()->toInt() ?: null],
             [
                 'start_date_time' => $shift->getTimeRange()->getStart(),
                 'end_date_time' => $shift->getTimeRange()->getEnd(),
                 'status_id' => $shift->getStatus()->value,
             ]
+        );
+
+        return Shift::reconstitute(
+            new ShiftId($model->id),
+            new ShiftTimeRange(
+                new DateTimeImmutable($model->start_date_time->toDateTimeString()),
+                new DateTimeImmutable($model->end_date_time->toDateTimeString())
+            ),
+            ShiftStatus::fromValue($model->status_id)
         );
     }
 

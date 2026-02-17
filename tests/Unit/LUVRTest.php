@@ -3,10 +3,10 @@
 namespace Tests\Unit;
 
 use DateTimeImmutable;
-use DomainException;
-use PHPUnit\Framework\TestCase;
 use LUVR\Domain\Entities\LUVR;
 use LUVR\Domain\ValueObjects\LUVRStatus;
+use LUVR\Domain\Exceptions\LUVRException;
+use PHPUnit\Framework\TestCase;
 use ShiftPlanning\Domain\ValueObjects\ShiftId;
 
 class LUVRTest extends TestCase
@@ -22,19 +22,19 @@ class LUVRTest extends TestCase
         );
     }
 
-    public function test_update_dates_validates_range(): void
+    public function test_with_updated_dates_validates_range(): void
     {
         $luvr = $this->createLuvr();
 
-        $this->expectException(DomainException::class);
-        $luvr->updateDates(new DateTimeImmutable('2025-01-01 17:00'), new DateTimeImmutable('2025-01-01 16:00'));
+        $this->expectException(LUVRException::class);
+        $luvr->withUpdatedDates(new DateTimeImmutable('2025-01-01 17:00'), new DateTimeImmutable('2025-01-01 16:00'));
     }
 
-    public function test_update_status_throws_when_paid(): void
+    public function test_with_updated_status_throws_when_paid(): void
     {
         $luvr = $this->createLuvr(LUVRStatus::Paid);
 
-        $this->expectException(DomainException::class);
-        $luvr->updateStatus(LUVRStatus::Approved);
+        $this->expectException(LUVRException::class);
+        $luvr->withUpdatedStatus(LUVRStatus::Approved);
     }
 }

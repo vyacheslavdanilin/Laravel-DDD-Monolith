@@ -13,14 +13,14 @@ use ShiftPlanning\Domain\ValueObjects\ShiftStatus;
 
 /**
  * @property int $id
- * @property int $performer_id
- * @property int $position_id
- * @property int $store_id
+ * @property int|null $performer_id
+ * @property int|null $position_id
+ * @property int|null $store_id
  * @property CarbonInterface $start_date_time
  * @property CarbonInterface $end_date_time
- * @property float $working_hours
+ * @property float|null $working_hours
  * @property string|null $comment
- * @property ShiftStatus $status_id
+ * @property int $status_id
  */
 final class ShiftPlanning extends EloquentModel
 {
@@ -48,6 +48,6 @@ final class ShiftPlanning extends EloquentModel
 
     public function getStatusAttribute(): string
     {
-        return $this->status_id->getText();
+        return ShiftStatus::fromValue($this->status_id)->getText();
     }
 }

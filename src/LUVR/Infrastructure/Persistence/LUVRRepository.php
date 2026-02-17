@@ -28,9 +28,9 @@ final class LUVRRepository implements LUVRRepositoryInterface
         );
     }
 
-    public function save(LUVR $luvr): void
+    public function save(LUVR $luvr): LUVR
     {
-        LUVRModel::updateOrCreate(
+        $model = LUVRModel::updateOrCreate(
             ['id' => $luvr->getId() ?: null],
             [
                 'shift_id' => $luvr->getShiftId()->toInt(),
@@ -38,6 +38,14 @@ final class LUVRRepository implements LUVRRepositoryInterface
                 'start_date_time' => $luvr->getStartDateTime(),
                 'end_date_time' => $luvr->getEndDateTime(),
             ]
+        );
+
+        return new LUVR(
+            id: $model->id,
+            shiftId: new ShiftId((int) $model->shift_id),
+            status: LUVRStatus::fromValue((int) $model->status_id),
+            startDateTime: $model->start_date_time,
+            endDateTime: $model->end_date_time
         );
     }
 
