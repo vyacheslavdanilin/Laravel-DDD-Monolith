@@ -1,0 +1,30 @@
+# Dependencies
+/vendor
+/node_modules
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Git and IDE
+.git
+.gitignore
+.idea
+.vscode
+*.md
+!README.md
+
+# Build and cache
+/public/build
+/public/hot
+.phpunit.cache
+.phpunit.result.cache
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+
+# Misc
+*.log
+.DS_Store

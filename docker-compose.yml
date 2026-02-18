@@ -1,0 +1,28 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel-ddd-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /app/database/database.sqlite
+    volumes:
+      - storage:/app/storage
+      - database:/app/database
+    healthcheck:
+      test: ["CMD", "php", "-r", "echo file_exists('/app/bootstrap/app.php') ? 0 : 1;"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  storage:
+  database:
