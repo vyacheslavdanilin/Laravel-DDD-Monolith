@@ -6,26 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('shifts', function (Blueprint $table) {
+        Schema::create('luvrs', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('shift_id');
             $table->dateTime('start_date_time');
             $table->dateTime('end_date_time');
-            $table->integer('status_id');
+            $table->unsignedTinyInteger('status_id');
             $table->timestamps();
             $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('shifts');
+        Schema::dropIfExists('luvrs');
     }
 };
