@@ -28,4 +28,19 @@ final class ShiftCreated extends AbstractDomainEvent
     {
         return 'shift.created';
     }
+
+    public function shiftId(): ShiftId
+    {
+        return $this->shiftId;
+    }
+
+    public function timeRange(): ShiftTimeRange
+    {
+        return $this->timeRange;
+    }
+
+    public function status(): ShiftStatus
+    {
+        return $this->status;
+    }
 }
