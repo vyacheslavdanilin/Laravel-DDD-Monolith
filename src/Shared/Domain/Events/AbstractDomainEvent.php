@@ -19,7 +19,7 @@ abstract class AbstractDomainEvent implements JsonSerializable
     public function __construct(array $payload, ?string $eventId = null, ?DateTimeImmutable $occurredOn = null)
     {
         $this->eventId = $eventId ?? Uuid::uuid4()->toString();
-        $this->occurredOn = $occurredOn ?? new DateTimeImmutable;
+        $this->occurredOn = $occurredOn ?? new DateTimeImmutable();
         $this->payload = $payload;
     }
 

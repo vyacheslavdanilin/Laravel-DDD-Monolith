@@ -21,9 +21,16 @@ final class ShiftPlanningRepository implements ShiftPlanningRepositoryInterface
             return null;
         }
 
+        $start = $model->start_date_time instanceof \DateTimeImmutable
+            ? $model->start_date_time
+            : new \DateTimeImmutable($model->start_date_time->format(\DATE_ATOM));
+        $end = $model->end_date_time instanceof \DateTimeImmutable
+            ? $model->end_date_time
+            : new \DateTimeImmutable($model->end_date_time->format(\DATE_ATOM));
+
         return Shift::reconstitute(
             new ShiftId($model->id),
-            new ShiftTimeRange($model->start_date_time, $model->end_date_time),
+            new ShiftTimeRange($start, $end),
             ShiftStatus::fromValue($model->status_id)
         );
     }

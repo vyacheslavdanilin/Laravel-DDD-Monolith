@@ -4,8 +4,8 @@ namespace Tests\Unit;
 
 use DateTimeImmutable;
 use LUVR\Domain\Entities\LUVR;
-use LUVR\Domain\ValueObjects\LUVRStatus;
 use LUVR\Domain\Exceptions\LUVRException;
+use LUVR\Domain\ValueObjects\LUVRStatus;
 use PHPUnit\Framework\TestCase;
 use ShiftPlanning\Domain\ValueObjects\ShiftId;
 

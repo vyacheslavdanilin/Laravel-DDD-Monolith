@@ -6,4 +6,6 @@ namespace ShiftPlanning\Domain\Exceptions;
 
 use Exception;
 
-final class ShiftPlanningException extends Exception {}
+final class ShiftPlanningException extends Exception
+{
+}

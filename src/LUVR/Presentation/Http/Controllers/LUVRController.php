@@ -19,7 +19,8 @@ final class LUVRController extends Controller
     public function __construct(
         private readonly LUVRService $service,
         private readonly LoggerInterface $logger
-    ) {}
+    ) {
+    }
 
     public function create(CreateLUVRRequest $request): JsonResponse
     {
@@ -30,11 +31,11 @@ final class LUVRController extends Controller
                 ->response()
                 ->setStatusCode(201);
         } catch (LUVRException $e) {
-            $this->logger->warning('LUVR create failed: '.$e->getMessage(), ['exception' => $e]);
+            $this->logger->warning('LUVR create failed: ' . $e->getMessage(), ['exception' => $e]);
 
             return response()->json(['message' => $e->getMessage()], 400);
         } catch (Throwable $e) {
-            $this->logger->error('LUVR create error: '.$e->getMessage(), ['exception' => $e]);
+            $this->logger->error('LUVR create error: ' . $e->getMessage(), ['exception' => $e]);
 
             return response()->json(['message' => 'Internal server error'], 500);
         }
@@ -47,14 +48,14 @@ final class LUVRController extends Controller
 
             return (new LUVRResource($luvr))->response();
         } catch (LUVRException $e) {
-            $this->logger->warning('LUVR update failed: '.$e->getMessage(), ['exception' => $e]);
+            $this->logger->warning('LUVR update failed: ' . $e->getMessage(), ['exception' => $e]);
 
             return response()->json(
                 ['message' => $e->getMessage()],
                 $e->isNotFound() ? 404 : 400
             );
         } catch (Throwable $e) {
-            $this->logger->error('LUVR update error: '.$e->getMessage(), ['exception' => $e]);
+            $this->logger->error('LUVR update error: ' . $e->getMessage(), ['exception' => $e]);
 
             return response()->json(['message' => 'Internal server error'], 500);
         }
@@ -79,7 +80,7 @@ final class LUVRController extends Controller
         } catch (LUVRException $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         } catch (Throwable $e) {
-            $this->logger->error('LUVR delete error: '.$e->getMessage(), ['exception' => $e]);
+            $this->logger->error('LUVR delete error: ' . $e->getMessage(), ['exception' => $e]);
 
             return response()->json(['message' => 'Internal server error'], 500);
         }
