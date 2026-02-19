@@ -6,4 +6,6 @@ namespace Shared\Exceptions;
 
 use Exception;
 
-abstract class DomainException extends Exception {}
+abstract class DomainException extends Exception
+{
+}

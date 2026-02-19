@@ -7,16 +7,17 @@ namespace LUVR\Application\Services;
 use LUVR\Application\DTOs\CreateLUVRDto;
 use LUVR\Application\DTOs\UpdateLUVRDto;
 use LUVR\Domain\Entities\LUVR;
+use LUVR\Domain\Exceptions\LUVRException;
 use LUVR\Domain\Repositories\LUVRRepositoryInterface;
 use LUVR\Domain\ValueObjects\LUVRStatus;
-use LUVR\Domain\Exceptions\LUVRException;
 use ShiftPlanning\Domain\ValueObjects\ShiftId;
 
 final class LUVRService
 {
     public function __construct(
         private readonly LUVRRepositoryInterface $repository
-    ) {}
+    ) {
+    }
 
     public function create(CreateLUVRDto $dto): LUVR
     {

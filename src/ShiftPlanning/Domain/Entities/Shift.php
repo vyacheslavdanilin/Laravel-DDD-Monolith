@@ -16,7 +16,8 @@ final class Shift extends AggregateRoot
         private ShiftId $id,
         private ShiftTimeRange $timeRange,
         private ShiftStatus $status,
-    ) {}
+    ) {
+    }
 
     public static function create(ShiftTimeRange $timeRange, ShiftStatus $status): self
     {

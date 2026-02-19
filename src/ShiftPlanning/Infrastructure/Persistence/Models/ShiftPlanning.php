@@ -24,7 +24,9 @@ use ShiftPlanning\Domain\ValueObjects\ShiftStatus;
  */
 final class ShiftPlanning extends EloquentModel
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory;
+    use Notifiable;
+    use SoftDeletes;
 
     protected $table = 'shifts';
 

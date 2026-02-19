@@ -10,7 +10,9 @@ use Shared\Domain\Events\AbstractDomainEvent;
 
 class LaravelEventBus implements EventBus
 {
-    public function __construct(private readonly Dispatcher $dispatcher) {}
+    public function __construct(private readonly Dispatcher $dispatcher)
+    {
+    }
 
     public function publish(AbstractDomainEvent ...$events): void
     {

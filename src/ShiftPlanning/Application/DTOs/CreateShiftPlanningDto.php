@@ -11,7 +11,8 @@ final readonly class CreateShiftPlanningDto
     public function __construct(
         public string $startDateTime,
         public string $endDateTime,
-    ) {}
+    ) {
+    }
 
     public function getStartDateTime(): DateTimeImmutable
     {

@@ -7,9 +7,9 @@ use LUVR\Application\DTOs\CreateLUVRDto;
 use LUVR\Application\DTOs\UpdateLUVRDto;
 use LUVR\Application\Services\LUVRService;
 use LUVR\Domain\Entities\LUVR;
+use LUVR\Domain\Exceptions\LUVRException;
 use LUVR\Domain\Repositories\LUVRRepositoryInterface;
 use LUVR\Domain\ValueObjects\LUVRStatus;
-use LUVR\Domain\Exceptions\LUVRException;
 use PHPUnit\Framework\TestCase;
 use ShiftPlanning\Domain\ValueObjects\ShiftId;
 

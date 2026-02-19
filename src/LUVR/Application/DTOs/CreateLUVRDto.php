@@ -12,5 +12,6 @@ final readonly class CreateLUVRDto
         public int $shiftId,
         public DateTimeImmutable $startDateTime,
         public DateTimeImmutable $endDateTime
-    ) {}
+    ) {
+    }
 }

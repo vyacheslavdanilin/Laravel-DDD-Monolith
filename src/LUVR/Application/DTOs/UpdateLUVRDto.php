@@ -13,5 +13,6 @@ final readonly class UpdateLUVRDto
         public ?DateTimeImmutable $startDateTime = null,
         public ?DateTimeImmutable $endDateTime = null,
         public ?LUVRStatus $status = null
-    ) {}
+    ) {
+    }
 }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace LUVR\Domain\Entities;
 
 use DateTimeInterface;
-use LUVR\Domain\ValueObjects\LUVRStatus;
 use LUVR\Domain\Exceptions\LUVRException;
+use LUVR\Domain\ValueObjects\LUVRStatus;
 use Shared\Domain\Aggregate\AggregateRoot;
 use ShiftPlanning\Domain\ValueObjects\ShiftId;
 
@@ -18,7 +18,8 @@ final class LUVR extends AggregateRoot
         private readonly LUVRStatus $status,
         private readonly DateTimeInterface $startDateTime,
         private readonly DateTimeInterface $endDateTime,
-    ) {}
+    ) {
+    }
 
     public function getId(): int
     {

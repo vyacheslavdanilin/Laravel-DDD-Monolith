@@ -19,7 +19,8 @@ final class ShiftPlanningController
         private readonly ShiftPlanningService $shiftPlanningService,
         private readonly EventBus $eventBus,
         private readonly LoggerInterface $logger
-    ) {}
+    ) {
+    }
 
     public function create(CreateShiftPlanningRequest $request): JsonResponse
     {
@@ -32,7 +33,7 @@ final class ShiftPlanningController
                 ->setStatusCode(201);
 
         } catch (ShiftPlanningException $e) {
-            $this->logger->warning('Ошибка создания смены: '.$e->getMessage(), ['exception' => $e]);
+            $this->logger->warning('Ошибка создания смены: ' . $e->getMessage(), ['exception' => $e]);
 
             return response()->json([
                 'message' => 'Ошибка при создании смены',
@@ -40,7 +41,7 @@ final class ShiftPlanningController
             ], 400);
 
         } catch (Throwable $e) {
-            $this->logger->error('Неизвестная ошибка в создании смены: '.$e->getMessage(), ['exception' => $e]);
+            $this->logger->error('Неизвестная ошибка в создании смены: ' . $e->getMessage(), ['exception' => $e]);
 
             return response()->json([
                 'message' => 'Внутренняя ошибка сервера',
